@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
+import uuid from 'react-native-uuid'
 
 export default function App() {
   const [userText, setUserText] = useState('')
-  const [textLog, setTextLog] = useState(['first comment'])
+  const [textLog, setTextLog] = useState([])
 
   return (
     <View style={styles.container}>
@@ -24,7 +25,9 @@ export default function App() {
       <View style={styles.textLog}>
         <View>
           {textLog.map((text) => (
-            <Text style={styles.logs}>{text}</Text>
+            <Text key={uuid.v4()} style={styles.logs}>
+              {text}
+            </Text>
           ))}
         </View>
       </View>
@@ -54,6 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'oldlace',
     alignItems: 'center',
     marginBottom: 10,
+    elevation: -1,
   },
   logs: {
     textAlign: 'center',
