@@ -1,35 +1,39 @@
 import { useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TextInput, View, ScrollView } from 'react-native'
 import uuid from 'react-native-uuid'
 
 export default function App() {
+  const [userGoal, setUserGoal] = useState('')
   const [userText, setUserText] = useState('')
   const [textLog, setTextLog] = useState([])
 
   return (
     <View style={styles.container}>
       <View style={styles.input}>
-        <Text style={styles.whiteText}>Create a plank</Text>
         <TextInput
-          style={styles.whiteText}
-          placeholder="type here..."
+          style={styles.titleText}
+          onChangeText={(newText) => setUserGoal(newText)}
+          placeholder="What do you want to achieve?..."
+          defaultValue={userGoal}
+        />
+        <TextInput
+          style={styles.plankText}
+          placeholder="add plank..."
           onChangeText={(newText) => setUserText(newText)}
           onSubmitEditing={() => {
-            setTextLog([userText, ...textLog])
+            setTextLog([...textLog, userText])
             setUserText('')
           }}
           defaultValue={userText}
         />
       </View>
       <View style={styles.textLog}>
-        <View>
-          {textLog.map((text) => (
-            <Text key={uuid.v4()} style={styles.logs}>
-              {text}
-            </Text>
-          ))}
-        </View>
+        {textLog.map((text) => (
+          <Text key={uuid.v4()} style={styles.logs}>
+            {text}
+          </Text>
+        ))}
       </View>
       <StatusBar style="auto" />
     </View>
@@ -40,16 +44,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  whiteText: {
+  titleText: {
     color: '#fff',
     fontSize: 20,
+    textAlign: 'center',
+    padding: 20,
+    marginBottom: 10,
+    backgroundColor: 'steelblue',
+    borderRadius: 50,
+  },
+  plankText: {
+    color: '#fff',
+    fontSize: 20,
+    textAlign: 'center',
+    backgroundColor: 'skyblue',
+    padding: 10,
+    borderRadius: 15,
   },
   input: {
+    textAlign: 'center',
     padding: 20,
     marginTop: 50,
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    backgroundColor: 'steelblue',
+    backgroundColor: 'oldlace',
   },
   textLog: {
     flex: 1,
@@ -63,9 +80,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 22,
     color: 'oldlace',
-    backgroundColor: 'steelblue',
+    backgroundColor: '#BA8C63',
     padding: 10,
     margin: 5,
     width: 330,
+    borderRadius: 15,
   },
 })
