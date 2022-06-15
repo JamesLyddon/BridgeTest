@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, TextInput } from 'react-native'
+import { StyleSheet, TextInput, Alert } from 'react-native'
 import uuid from 'react-native-uuid'
 
 function PlankGenerator({ userText, textLog, setUserText, setTextLog }) {
@@ -9,8 +9,16 @@ function PlankGenerator({ userText, textLog, setUserText, setTextLog }) {
       placeholder="add plank..."
       onChangeText={(newText) => setUserText({ text: newText, id: uuid.v4() })}
       onSubmitEditing={() => {
-        setTextLog([...textLog, userText])
-        setUserText({ text: '', id: '' })
+        if (userText.text !== '') {
+          setTextLog([...textLog, userText])
+          setUserText({ text: '', id: '' })
+        } else {
+          Alert.alert(
+            'No text entered',
+            "Type out a significant 'stepping stone' in achieving your goal.\n\nThese can be reordered and edited later.",
+            [{ text: 'Got it', onPress: () => console.log('OK Pressed') }]
+          )
+        }
       }}
       defaultValue={userText.text}
     />
